@@ -1,0 +1,16 @@
+swagger: "2.0"
+info:
+  description: "The Debbie APIs is a RESTful interface, allowing you to programmatically update, add and access much of your data on the platform. It provides predictable URLs for accessing resources, and uses built-in HTTP features to receive commands and return responses. This makes it easy to communicate with third party systems."
+  version: "v1.0.0"
+  title: "Economy API Docs"
+  contact:
+    email: "support@debbie.dk"
+  x-logo:
+    url: "https://debbie-platform.github.io/economy-api-docs/deb-logo.svg"
+host: "api.economy.debbieapp.com"
+
+basePath: "/v1"
+
+externalDocs:
+  description: "Find out more about Cosmo"
+  url: "https://debbie.dk/cosmo"
