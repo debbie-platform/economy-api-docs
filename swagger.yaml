@@ -10,7 +10,307 @@ info:
 host: "api.economy.debbieapp.com"
 
 basePath: "/v1"
+tags:
+  - name: "Tenants"
+    description: "A tenant holds a collection of financial statements"
+  - name: "Financial Statements"
+    description: "A financial statement holds a collection of accounts"
+  - name: "Accounts"
+    description: "An account holds a collection of vouchers"
+  - name: "Vouchers"
+    description: "A voucher is a financial entry"
+
+schemes:
+  - "https"
+paths:
+  /tenants:
+    post:
+      tags:
+        - "Tenants"
+      summary: "Create new tenant"
+      description: "Create a new tenant to start using Debbie Economy."
+      operationId: "create-tenant"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New tenant created"
+          required: true
+          schema:
+            $ref: "#/definitions/NewTenant"
+      responses:
+        "200":
+          description: "Successful operation"
+
+    get:
+      tags:
+        - "Tenants"
+      summary: "Get tenants you have access to"
+      description: "Get a list of tenants that you have access to."
+      operationId: "get-tenants"
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Tenant"
+  /tenants/:tenantId:
+    get:
+      tags:
+        - "Tenants"
+      summary: "Get tenant"
+      description: "Get a tenant by tenant id."
+      operationId: "get-tenant"
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Tenant"
+
+  /:tenantId/financial-statements:
+    post:
+      tags:
+        - "Financial Statements"
+      summary: "Create new financial statement"
+      description: "Create a new financial statement."
+      operationId: "create-financial-statement"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New financial statement"
+          required: true
+          schema:
+            $ref: "#/definitions/NewFinancialStatement"
+      responses:
+        "200":
+          description: "Successful operation"
+    get:
+      tags:
+        - "Financial Statements"
+      summary: "Get financial statements"
+      description: "Get financial statements."
+      operationId: "get-financial-statements"
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/FinancialStatement"
+
+  /:tenantId/accounts:
+    post:
+      tags:
+        - "Accounts"
+      summary: "Create new account"
+      description: "Create a new account."
+      operationId: "create-account"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New account"
+          required: true
+          schema:
+            $ref: "#/definitions/NewAccount"
+      responses:
+        "200":
+          description: "Successful operation"
+  /:tenantId/accounts/:accountId:
+    get:
+      tags:
+        - "Accounts"
+      summary: "Get account"
+      description: "Get account by id."
+      operationId: "get-account"
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Account"
+  /:tenantId/financial-statements/:financialStatementId/accounts:
+    get:
+      tags:
+        - "Accounts"
+      summary: "Get accounts"
+      description: "Get accounts related to the specified financial statement."
+      operationId: "get-accounts"
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Account"
+  /:tenantId/vouchers/types:
+    post:
+      tags:
+        - "Vouchers"
+      summary: "Create new voucher type"
+      description: "Create a new voucher type."
+      operationId: "create-voucher-type"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New voucher type"
+          required: true
+          schema:
+            $ref: "#/definitions/NewVoucherType"
+      responses:
+        "200":
+          description: "Successful operation"
+    get:
+      tags:
+        - "Vouchers"
+      summary: "Get voucher types"
+      description: "Get all voucher types"
+      operationId: "get-voucher-types"
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/VoucherType"
+  /:tenantId/vouchers/types/:voucherTypeId:
+    delete:
+      tags:
+        - "Vouchers"
+      summary: "Delete voucher type"
+      description: "Create a new voucher type."
+      operationId: "create-account"
+      responses:
+        "200":
+          description: "Successful operation"
+  /:tenantId/vouchers:
+    post:
+      tags:
+        - "Vouchers"
+      summary: "Create new voucher"
+      description: "Create a new voucher."
+      operationId: "create-voucher"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New voucher"
+          required: true
+          schema:
+            $ref: "#/definitions/NewVoucher"
+      responses:
+        "200":
+          description: "Successful operation"
+  /:tenantId/accounts/:accountId/vouchers:
+    get:
+      tags:
+        - "Vouchers"
+      summary: "Get vouchers"
+      description: "Get all vouchers related to an account"
+      operationId: "get-vouchers"
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Voucher"
+  /:tenantId/vouchers/:voucherId:
+    delete:
+      tags:
+        - "Vouchers"
+      summary: "Delete voucher"
+      description: "Delete a voucher"
+      operationId: "delete-voucher"
+      responses:
+        "200":
+          description: "Successful operation"
+    put:
+      tags:
+        - "Vouchers"
+      summary: "Update voucher"
+      description: "Update a voucher"
+      operationId: "update-voucher"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New voucher"
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateVoucher"
+      responses:
+        "200":
+          description: "Successful operation"
+
+securityDefinitions:
+  Header Parameter:
+    type: "apiKey"
+    name: "X-Economy-Auth-Token: <YOUR_VERY_SECRET_TOKEN>"
+    in: "header"
+    description: 'To authenticate any economyAPI request, you must include a "X-Economy-Auth-Token" header field, with your authentication token. Alternatively you can pass the authentication token as a query string parameter. The key/value pair should have the key "authToken" and the value should be your authentication token.'
+  Query Parameter:
+    type: "apiKey"
+    name: "authToken=<YOUR_VERY_SECRET_TOKEN>"
+    in: "query"
+
+definitions:
+  NewTenant:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      tenantId:
+        type: "string"
+  Tenant:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      tenantId:
+        type: "string"
+  NewFinancialStatement:
+    type: "object"
+    properties:
+      financialStatementId:
+        type: "string"
+  FinancialStatement:
+    type: "object"
+    properties:
+      financialStatementId:
+        type: "string"
+  NewAccount:
+    type: "object"
+    properties:
+      accountId:
+        type: "string"
+  Account:
+    type: "object"
+    properties:
+      accountId:
+        type: "string"
+  NewVoucherType:
+    type: "object"
+    properties:
+      voucherTypeId:
+        type: "string"
+  VoucherType:
+    type: "object"
+    properties:
+      voucherTypeId:
+        type: "string"
+  UpdateVoucher:
+    type: "object"
+    properties:
+      voucherId:
+        type: "string"
+  NewVoucher:
+    type: "object"
+    properties:
+      voucherId:
+        type: "string"
+  Voucher:
+    type: "object"
+    properties:
+      voucherId:
+        type: "string"
 
 externalDocs:
-  description: "Find out more about Cosmo"
-  url: "https://debbie.dk/cosmo"
+  description: "Find out more about Economy"
+  url: "https://debbie.dk/economy"
